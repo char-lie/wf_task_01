@@ -9,7 +9,7 @@ $Translation['en']['registrationHeading']   = 'Registration';
 $Translation['en']['labelEmail']            = 'Email address';
 $Translation['en']['labelPassword']         = 'Password';
 $Translation['en']['labelConfPassword']     = 'Confirm the password';
-$Translation['en']['continueRegButton']     = 'Register';
+$Translation['en']['continueRegButton']     = 'Continue registration';
 
 
 $Translation['ru']['title']                 = 'Сайт';
@@ -19,7 +19,7 @@ $Translation['ru']['registrationHeading']   = 'Регистрация';
 $Translation['ru']['labelEmail']            = 'Email адрес';
 $Translation['ru']['labelPassword']         = 'Пароль';
 $Translation['ru']['labelConfPassword']     = 'Повторите пароль';
-$Translation['ru']['continueRegButton']     = 'Зарегистрироваться';
+$Translation['ru']['continueRegButton']     = 'Продолжить регистрацию';
 
 
 ?>
