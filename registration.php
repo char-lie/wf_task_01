@@ -17,7 +17,11 @@ $smarty->setTranslator($translator);
 $smarty->clearAllCache();
 
 $smarty->tAssign('title', 'registrationTitle');
-$smarty->tAssign('submitButtonValue');
+$smarty->tAssign('registrationHeading');
+$smarty->tAssign('labelEmail');
+$smarty->tAssign('labelPassword');
+$smarty->tAssign('labelConfPassword');
+$smarty->tAssign('continueRegButton');
 $smarty->display('registration.tpl');
 
 ?>
