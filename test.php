@@ -7,6 +7,7 @@ define('SMARTY_DIR', './smarty-3.1/libs/');
 require_once(SMARTY_DIR.'Smarty.class.php');
 
 $smarty = new Smarty();
+$smarty->setCompileDir('./c_templates/');
 $smarty->clearAllCache();
 $smarty->testInstall();
 
