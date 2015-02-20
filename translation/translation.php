@@ -9,6 +9,7 @@ $Translation['en']['Registration']          = 'Registration';
 $Translation['en']['Registration continuation']
                                             = 'Registration continuation';
 $Translation['en']['Log in']                = 'Log in';
+$Translation['en']['Account']               = 'Account';
 
 $Translation['en']['Email']                 = 'Email address';
 $Translation['en']['Password']              = 'Password';
@@ -37,6 +38,7 @@ $Translation['ru']['Continue registration'] = 'Продолжить регист
 $Translation['ru']['Home']                  = 'Главная';
 $Translation['ru']['Registration']          = 'Регистрация';
 $Translation['ru']['Log in']                = 'Войти';
+$Translation['ru']['Account']               = 'Персональная страница';
 $Translation['ru']['Language']              = 'Язык';
 
 $Translation['en']['Toggle navigation']     = 'Выпадающая навигация';

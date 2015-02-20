@@ -7,14 +7,19 @@ $currentPage = $translator->translate('Registration');
 
 $smarty->assign('currentPage', $currentPage);
 
-$smarty->assign('emailValue', getVar('input-email'));
+$email      = getVar('input-email');
+$password   = getVar('password-input');
+
+$smarty->assign('emailValue', $email);
 
 if (getVar('continue-registration-buttoon') === 'ok') {
-    $ur = new User(getVar('input-email'), getVar('password-input'));
+    $ur = new User($email, $password);
     if ($ur->isPasswordCorrect() && $ur->isEmailCorrect()) {
-        $ur->save();
-        $_SESSION['user_id'] = $ur->id;
-        $smarty->display('continue-registration.tpl');
+        $ur->signUp();
+        $ur->signIn();
+        $_SESSION['account_id'] = $ur->id;
+        header("Location: /account.php");
+        die();
     }
     else {
         $smarty->display('registration.tpl');
