@@ -9,7 +9,7 @@ class Smarty_Site extends Smarty {
     public $language = 'en';
     public $translator = NULL;
 
-    function __construct($language = 'en', $templateName = 'main') {
+    function __construct($translator, $templateName = 'main') {
         parent::__construct();
 
         $this->setTemplateDir('./templates/'.$templateName.'/');
@@ -18,14 +18,44 @@ class Smarty_Site extends Smarty {
         $this->caching = Smarty::CACHING_LIFETIME_CURRENT;
         $this->assign('app_name', 'Meetings site');
 
-        $this->language = $language;
         $this->templateName = $templateName;
 
         $this->assign('media', '/media');
+
+        $this->setTranslator($translator);
+    }
+
+    function readLanguage() {
+        $language = $this->language;
+        if (isset($_GET['select-language'])) {
+            if (isset($_COOKIE['languageCode'])) {
+                if ($_COOKIE['languageCode'] !== $_GET['select-language']) {
+                    setcookie('languageCode', $_GET['select-language']);
+                    $this->clearAllCache();
+                }
+            }
+            else {
+                setcookie('languageCode', $_GET['select-language']);
+                $this->clearAllCache();
+            }
+            $language = $_GET['select-language'];
+        }
+        else if (isset($_COOKIE['languageCode'])) {
+            $language = $_COOKIE['languageCode'];
+        }
+        return $language;
+    }
+
+    function getLanguage() {
+        return $this->language;
     }
 
     function setTranslator($translator) {
         $this->translator = $translator;
+        $this->language = $this->readLanguage();
+        if (!array_key_exists($this->language, $this->translator->getAvailableLanguages())) {
+            $this->language = $this->translator->getDefaultLanguage();
+        }
         $this->translator->setDefaultLanguage($this->language);
     }
 

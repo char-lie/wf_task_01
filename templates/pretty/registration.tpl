@@ -1,45 +1,48 @@
 {extends file='main.tpl'}
+{block name=title}
+{translate}Registration{/translate}
+{/block}
 {block name=additionalMedia}
   <script src="{$media}/js/registration_validation.js"></script>
 {/block}
 {block name=content}
-<form class="form-vertical form-registration" id="form-registration" name="form-registration" role="form" novalidate>
+<form class="form-vertical form-registration" id="form-registration" name="form-registration" role="form" novalidate method="POST">
   <fieldset>
 
     <!-- Form Name -->
-    <legend>{$registrationFormName}</legend>
+    <legend>{translate}Registration{/translate}</legend>
 
     <!-- Text input-->
     <div class="form-group">
-      <label class="sr-only control-label" for="input-email">{$lblEmail}</label>
+      <label class="sr-only control-label" for="input-email">{translate}Email{/translate}</label>
       <div class="controls">
-        <input id="input-email" name="input-email" type="email" placeholder="{$plhEmail}" class="form-control input-mini" required>
+        <input id="input-email" name="input-email" type="email" placeholder="{translate}Email{/translate}" class="form-control input-mini" required value="{$emailValue}">
       </div>
     </div>
 
     <!-- Password input-->
     <div class="form-group">
-      <label class="sr-only control-label" for="password-input">{$lblPassword}</label>
+      <label class="sr-only control-label" for="password-input">{translate}Password{/translate}</label>
         <div class="controls">
-          <input id="password-input" name="password-input" type="password" placeholder="{$plhPassword}" class="form-control" required>
+          <input id="password-input" name="password-input" type="password" placeholder="{translate}Password{/translate}" class="form-control" required>
 
       </div>
     </div>
 
     <!-- Password input-->
     <div class="form-group">
-      <label class="sr-only control-label" for="password-confirm">{$lblPasswordConfirm}</label>
+      <label class="sr-only control-label" for="password-confirm">{translate}PasswordConfirm{/translate}</label>
         <div class="controls">
-          <input id="password-confirm" name="password-confirm" type="password" placeholder="{$plhPasswordConfirm}" class="form-control" required>
+          <input id="password-confirm" name="password-confirm" type="password" placeholder="{translate}Confirm the password{/translate}" class="form-control" required>
 
       </div>
     </div>
 
     <!-- Button -->
     <div class="form-group">
-      <label class="sr-only control-label" for="continue-registration-buttoon">{$lblContinueReg}</label>
+      <label class="sr-only control-label" for="continue-registration-buttoon">{translate}Continue registration{/translate}</label>
         <div class="controls">
-          <button id="continue-registration-buttoon" type="submit" name="continue-registration-buttoon" class="btn btn-primary">{$plhContinueReg}</button>
+          <button id="continue-registration-buttoon" type="submit" name="continue-registration-buttoon" class="btn btn-primary" value="ok">{translate}Continue registration{/translate}</button>
         </div>
     </div>
 
