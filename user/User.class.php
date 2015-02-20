@@ -1,15 +1,21 @@
 <?php
 
+require_once('db_connection/RGConnector.class.php');
+
 class User {
-    public $email       = NULL;
-    private $password   = NULL;
-    public $id          = NULL;
-    function __construct($email, $password = NULL) {
+    public $email           = NULL;
+    private $password       = NULL;
+    public $id              = NULL;
+    private $dbConnector    = NULL;
+
+    function __construct($id, $password = NULL) {
+        $this->dbConnector = new RGConnector();
+
         if (is_null($password)) {
-            $this->id       = test_input($email);
+            $this->id       = test_input($id);
         }
         else {
-            $this->email    = test_input($email);
+            $this->email    = test_input($id);
             $this->password = $password;
         }
     }
@@ -29,46 +35,37 @@ class User {
         return crypt($password, 'Standard seed');
     }
 
-    function save() {
+    function signUp() {
         $success = NULL;
-        $mysqli = new mysqli('localhost', 'task_001_rg', '12345', 'task_001');
-        if ($mysqli->connect_error) {
-            die('Ошибка подключения (' . $mysqli->connect_errno . ') '
-                . $mysqli->connect_error);
-        }
-        if ($mysqli->query(sprintf("INSERT  INTO `user_login` (`email`, `password`) VALUES('%s', '%s')", $this->email, $this->getPasswordHash())) === true) {
-            $success = true;
-        }
-        else {
-            $success = false;
-            printf("Error: %s\n", $mysqli->error);
-        }
-        $mysqli->close();
+
+        $this->dbConnector->connect();
+        $success = $this->dbConnector->signUp($this->email,
+                                              $this->getPasswordHash());
+        $this->dbConnector->close();
+
         return $success;
     }
 
-    function load() {
-        $mysqli = new mysqli('localhost', 'task_001_rg', '12345', 'task_001');
-        if (is_null($this->id)) {
-            $query = sprintf("SELECT * FROM `user_login` WHERE email='%s' AND password='%s';",
-                         $this->email, $this->getPasswordHash());
+    function signIn() {
+        $success = NULL;
+
+        $success = $this->dbConnector->connect();
+
+        if ($success) {
+            $result  = $this->dbConnector->signIn($this->email,
+                                                  $this->getPasswordHash());
+            $success = $result->num_rows == 1;
         }
-        else {
-            $query = sprintf("SELECT * FROM `user_login` WHERE iduser_login='%s'",
-                         $this->id);
+
+        if ($success) {
+            $row            = $result->fetch_array();
+            $this->id       = $row['iduser_login'];
+            $this->email    = $row['email'];
+            $success        = true;
         }
-        $result         = $mysqli->query($query);
-        //die(var_dump($result));
-        if ($result->num_rows != 1) {
-            $result->close();
-            $mysqli->close();
-            return false;
-        }
-        $row            = $result->fetch_array();
-        $this->id       = $row['iduser_login'];
-        $this->email    = $row['email'];
+
         $result->close();
-        $mysqli->close();
+        $this->dbConnector->close();
         return true;
     }
 }

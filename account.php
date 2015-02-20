@@ -12,11 +12,13 @@ $smarty->assign('currentPage', $currentPage);
 
 //$_SESSION['user_id'] = 10;
 
-$user = new User($_SESSION['user_id']); 
-$user->load();
+//$user = new User($_SESSION['user_id']); 
+//$user->load();
 
-$smarty->assign('user_id', $user->id);
-$smarty->assign('user_email', $user->email);
+//$smarty->assign('user_id', $user->id);
+//$smarty->assign('user_email', $user->email);
+$smarty->assign('user_id', $_SESSION['user_id']);
+$smarty->assign('user_email', $_SESSION['user_email']);
 
 $smarty->display('account.tpl');
 
