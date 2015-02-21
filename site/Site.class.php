@@ -26,23 +26,16 @@ class Smarty_Site extends Smarty {
     }
 
     function readLanguage() {
-        $language = $this->language;
         if (isset($_GET['select-language'])) {
-            if (isset($_COOKIE['languageCode'])) {
-                if ($_COOKIE['languageCode'] !== $_GET['select-language']) {
-                    setcookie('languageCode', $_GET['select-language']);
-                    $this->clearAllCache();
-                }
-            }
-            else {
-                setcookie('languageCode', $_GET['select-language']);
-                $this->clearAllCache();
-            }
             $language = $_GET['select-language'];
         }
-        else if (isset($_COOKIE['languageCode'])) {
-            $language = $_COOKIE['languageCode'];
+        else if (isset($_SESSION['languageCode'])) {
+            $language = $_SESSION['languageCode'];
         }
+        else {
+            $language = $this->language;
+        }
+        $_SESSION['languageCode'] = $language;
         return $language;
     }
 
@@ -53,7 +46,7 @@ class Smarty_Site extends Smarty {
     function setTranslator($translator) {
         $this->translator = $translator;
         $this->language = $this->readLanguage();
-        if (!array_key_exists($this->language, $this->translator->getAvailableLanguages())) {
+        if (!$this->translator->isLanguageCodeAvailable($this->language) {
             $this->language = $this->translator->getDefaultLanguage();
         }
         $this->translator->setDefaultLanguage($this->language);

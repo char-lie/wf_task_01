@@ -25,12 +25,10 @@ require_once('translation/translation.php');
 $translator = new Translator();
 $translator->loadTranslation($Translation);
 
-$languageCode = 'ru';
+$languageCode = NULL;
 
 $smarty = new Smarty_Site($translator, 'pretty');
 $languageCode = $smarty->getLanguage();
-
-$smarty->clearAllCache();
 
 function translation_plugin($params, $content, $smarty) {
     if (isset($content)) {

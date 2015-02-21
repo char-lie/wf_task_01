@@ -2,8 +2,10 @@
 
 class Translator {
 
-    protected $translation = array();
-    protected $defaultLanguage = 'en';
+    protected $translation      = array();
+    protected $defaultLanguage  = 'en';
+    protected $languageCodes    = NULL;
+    protected $languageNames    = NULL;
 
     function __construct($defaultLanguage = 'en', $translation = array()) {
         $this->setDefaultLanguage($defaultLanguage);
@@ -19,7 +21,9 @@ class Translator {
     }
 
     function loadTranslation($translation) {
-        $this->translation = $translation;
+        $this->translation      = $translation;
+        $this->languageCodes    = array('en', 'ru');
+        $this->languageNames    = array('English', 'Russian');
     }
 
     function translate($keyword, $language = NULL) {
@@ -29,15 +33,19 @@ class Translator {
         return $this->translation[$language][$keyword];
     }
 
+    function isLanguageCodeAvailable($languageCode) {
+        return in_array($languageCode, $this->languageCodes);
+    }
+
     function getAvailableLanguages($language = NULL) {
         if (is_null($language)) {
-            $language = $this->defaultLanguage;
+            $language   = $this->defaultLanguage;
         }
-        $availableLanguages = array(
-            'ru' => $this->translate('Russian', $language),
-            'en' => $this->translate('English', $language)
-        );
-        return $availableLanguages;
+        $translate      =   function($languageName) use (&$language) {
+                              return $this->translate($languageName, $language);
+                            };
+        return array_combine($this->languageCodes,
+                             array_map($translate, $this->languageNames));
     }
 }
 
