@@ -2,11 +2,9 @@
 
 require_once(SMARTY_DIR.'Smarty.class.php');
 require_once(TRANSLATOR_DIR.'Translator.class.php');
-require_once('site/Page.class.php');
-
-function array_value($key, $array, $default = NULL) {
-    return isset($array[$key])? $array[$key] : $default;
-}
+require_once(SITE_CLASSES_DIR.'Page.class.php');
+require_once(UTILS_DIR.'utils.php');
+require_once(USER_CLASS_DIR.'User.class.php');
 
 class Site {
 
@@ -29,15 +27,9 @@ class Site {
 
     // TRANSLATION
     function readLanguage() {
-        if (isset($_GET['select-language'])) {
-            $language = $_GET['select-language'];
-        }
-        else if (isset($_SESSION['languageCode'])) {
-            $language = $_SESSION['languageCode'];
-        }
-        else {
-            $language = $this->language;
-        }
+        $language = array_value('select-language', $_GET)   ?:
+                    array_value('languageCode', $_SESSION)  ?:
+                    $this->language;
         $_SESSION['languageCode'] = $language;
         return $language;
     }
@@ -132,6 +124,37 @@ class Site {
                              $this->translator->getLanguagesNames());
     }
 
+    function loadLoginPage() {
+        $email      = array_value('input-email', $_POST);
+        $password   = array_value('password-input', $_POST);
+        $generatePageURL = $this->getURLGeneratorClosure('page', true);
+        if (isset($_POST['input-email']) and isset($_POST['password-input'])) {
+            $user = new User($email, $password);
+            if ($user->signIn()) {
+                $_SESSION['account_id'] = $user->id;
+                header("Location: ".$generatePageURL('account'));
+                die();
+            }
+        } 
+    }
+
+    function loadRegistrationPage() {
+        $email      = array_value('input-email', $_POST);
+        $password   = array_value('password-input', $_POST);
+        $generatePageURL = $this->getURLGeneratorClosure('page', true);
+        if (array_value('continue-registration-buttoon', $_POST) === 'ok') {
+            $user = new User($email, $password);
+            if ($user->isPasswordCorrect() && $ur->isEmailCorrect()) {
+                $user->signUp();
+                $user->signIn();
+                $_SESSION['account_id'] = $user->id;
+                header("Location: ".$generatePageURL('account'));
+                die();
+            }
+        }
+        $this->page->assign('emailValue', $email);
+    }
+
     function loadPage() {
         $this->page->assign(array(
             'app_name'              => 'Meetings site',
@@ -142,6 +165,12 @@ class Site {
             'languages'             => $this->getLanguagesNavigation(),
             'navigationElements'    => $this->getNavigationElements()
         ));
+        if ($this->getCurrentPageCode() === 'registration') {
+            $this->loadRegistrationPage();
+        }
+        else if ($this->getCurrentPageCode() === 'login') {
+            $this->loadLoginPage();
+        }
     }
 
     function displayPage() {

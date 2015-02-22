@@ -18,21 +18,8 @@ class Page extends Smarty {
         $this->template = $template;
     }
 
-    function readLanguage() {
-        if (isset($_GET['select-language'])) {
-            $language = $_GET['select-language'];
-        }
-        else if (isset($_SESSION['languageCode'])) {
-            $language = $_SESSION['languageCode'];
-        }
-        else {
-            $language = $this->language;
-        }
-        $_SESSION['languageCode'] = $language;
-        return $language;
-    }
-
-    function display($template = NULL, $cache_id = NULL, $compile_id = NULL, $parent = NULL) {
+    function display($template = NULL, $cache_id = NULL, $compile_id = NULL,
+                     $parent = NULL) {
         if (is_null($template)) {
             $template = $this->template;
         }
