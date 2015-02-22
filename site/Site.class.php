@@ -4,12 +4,17 @@ require_once(SMARTY_DIR.'Smarty.class.php');
 require_once(TRANSLATOR_DIR.'Translator.class.php');
 require_once('site/Page.class.php');
 
+function array_value($key, $array, $default = NULL) {
+    return isset($array[$key])? $array[$key] : $default;
+}
+
 class Site {
 
     protected $templateName;
-    protected $language = 'en';
     protected $translator;
     protected $page;
+    protected $language         = 'en';
+    protected $defaultPageCode  = 'home';
 
     function __construct($templateName = 'main') {
         $this->templateName = $templateName;
@@ -37,8 +42,9 @@ class Site {
         return $language;
     }
 
-    function getLanguage() {
-        return $this->language;
+    function getCurrentLanguage($language = NULL) {
+        $language = $language ?: $this->language;
+        return $this->translator->getAvailableLanguages($language)[$language];
     }
 
     function setTranslator($translator) {
@@ -54,76 +60,85 @@ class Site {
         if (isset($content)) {
             return $this->translator->translate($content);
         }
+        else {
+            return '';
+        }
     }
     // TRANSLATION
 
-    // HIGH-LEVEL PAGES PROCESSING
+    // PAGES INFO
+    function getDefaultPageCode() {
+        return $this->defaultPageCode;
+    }
+
     function getPagesCodes() {
         return array('home', 'registration', 'login');
     }
 
     function getPagesTitles() {
-        return array(
-            $this->translator->translate('Home'),
-            $this->translator->translate('Registration'),
-            $this->translator->translate('Log in')
-        );
+        $titles = array('Home', 'Registration', 'Log in');
+        return $this->translator->translate($titles);
     }
 
-    function isPageCodeAvailable($pageCode) {
-        return in_array($pageCode, $this->getPagesCodes());
+    function getAvailablePages() {
+        return array_combine($this->getPagesCodes(), $this->getPagesTitles());
     }
 
-    function getCurrentPageNameCode() {
-        $page = 'home';
-        if (isset($_GET['page']) && $this->isPageCodeAvailable($_GET['page'])) {
-            $page = $_GET['page'];
-        }
-        return $page;
+    function getCurrentPageCode() {
+        $default    = $this->getDefaultPageCode();
+        $pageCode   = array_value('page', $_GET, $default);
+        return in_array($pageCode, $this->getPagesCodes())? $pageCode:$default;
     }
 
     function getPageTemplate() {
-        return $this->getCurrentPageNameCode().'.tpl';
+        return $this->getCurrentPageCode().'.tpl';
     }
-    // HIGH-LEVEL PAGES PROCESSING
+    // PAGES INFO
 
-    function generateURL($parameters) {
-        $siteURL = sprintf("http%s://%s", empty($_SERVER['HTTPS'])? "":"s",
-                            $_SERVER['HTTP_HOST']);
-        $currentPageURL = $siteURL . strtok($_SERVER["REQUEST_URI"],'?');
+    function generateURL($parameters, $clearQuery = false) {
+        $protocol       = sprintf("http%s", empty($_SERVER['HTTPS'])? "":"s");
+        $host           = $_SERVER['HTTP_HOST'];
+        $requestURL     = strtok($_SERVER["REQUEST_URI"],'?');
+        $siteURL        = sprintf("%s://%s", $protocol, $host);
+        $currentPageURL = sprintf("%s%s", $siteURL, $requestURL);
+
         if (is_array($parameters)) {
-            $queryString = http_build_query(array_merge($_GET, $parameters));
-            return sprintf("%s?%s", $currentPageURL, $queryString);
+            $queryDict  = array_merge($clearQuery? array():$_GET, $parameters);
+            $queryStr   = http_build_query($queryDict);
+            return sprintf("%s?%s", $currentPageURL, $queryStr);
         }
         else {
             return sprintf("%s/%s", $siteURL, $parameters);
         }
     }
 
-    function getNavigationElements() {
-        $generatePageURL = function($pageCode) {
-            return $this->generateURL(array('page' => $pageCode));
+    function getURLGeneratorClosure($key, $clearQuery = false) {
+        return function($value) use ($key, $clearQuery) {
+            return $this->generateURL(array($key => $value), $clearQuery);
         };
+    }
+
+    function getNavigationElements() {
+        $generatePageURL = $this->getURLGeneratorClosure('page', true);
         $pagesURLs = array_map($generatePageURL, $this->getPagesCodes());
         return array_combine($pagesURLs, $this->getPagesTitles());
     }
 
-
     function getLanguagesNavigation() {
-        $result = array();
-        foreach($this->translator->getAvailableLanguages() as $key => $value) {
-            $result[$this->generateURL(array('select-language' => $key))]
-                = array('short' => $key, 'long' => $value);
-        }
-        return $result;
+        $generateLanguageURL = $this->getURLGeneratorClosure('select-language');
+        $languagesURLs = array_map($generateLanguageURL,
+                                   $this->translator->getLanguagesCodes());
+        return array_combine($languagesURLs,
+                             $this->translator->getLanguagesNames());
     }
 
     function loadPage() {
         $this->page->assign(array(
             'app_name'              => 'Meetings site',
             'media'                 => $this->generateURL('media'),
-            'currentPage'           => $this->getCurrentPageNameCode(),
-            'languageCode'          => $this->getLanguage(),
+            'currentPage'           => $this->getCurrentPageCode(),
+            'currentLanguageCode'   => $this->language,
+            'currentLanguage'       => $this->getCurrentLanguage(),
             'languages'             => $this->getLanguagesNavigation(),
             'navigationElements'    => $this->getNavigationElements()
         ));

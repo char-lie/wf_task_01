@@ -23,7 +23,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{translate}Language{/translate}<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             {foreach from=$languages key=url item=title}
-            <li {if $languageCode === $title['short']}class="disabled"{/if}><a href="{$url}">{$title['long']}</a>
+            <li {if $currentLanguage === $title}class="disabled"{/if}><a href="{$url}">{$title}</a>
             {/foreach}
           </ul>
         </li>

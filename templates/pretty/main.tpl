@@ -17,8 +17,8 @@
     <script src="{$media}/jquery-validation-1.13.1/lib/jquery.js"></script>
     <script src="{$media}/bootstrap-3.3.2/js/bootstrap.min.js"></script>
     <script src="{$media}/jquery-validation-1.13.1/dist/jquery.validate.js"></script>
-    {if $languageCode !== 'en'}
-    <script src="{$media}/jquery-validation-1.13.1/dist/localization/messages_{$languageCode}.js"></script>
+    {if $currentLanguageCode !== 'en'}
+    <script src="{$media}/jquery-validation-1.13.1/dist/localization/messages_{$currentLanguageCode}.js"></script>
     {/if}
 
     {block name=additionalMedia}{/block}
