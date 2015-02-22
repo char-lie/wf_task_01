@@ -1,15 +1,20 @@
 <?php
 
+require_once(TRANSLATOR_DIR.'translation.php');
+
 class Translator {
 
-    protected $translation      = array();
     protected $defaultLanguage  = 'en';
-    protected $languageCodes    = NULL;
-    protected $languageNames    = NULL;
+    protected $translation;
+    protected $languageCodes;
+    protected $languageNames;
 
-    function __construct($defaultLanguage = 'en', $translation = array()) {
+    function __construct($defaultLanguage = 'en', $translation = NULL) {
         $this->setDefaultLanguage($defaultLanguage);
-        $this->loadTranslation($translation);
+        if (is_null($translation)) {
+            global $Translation;
+            $this->loadTranslation($Translation);
+        }
     }
 
     function setDefaultLanguage($defaultLanguage) {

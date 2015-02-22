@@ -1,11 +1,18 @@
 <?php
 
-require_once('common.php');
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-$currentPage = $translator->translate('Home');
+session_start();
 
-$smarty->assign('currentPage', $currentPage);
+define('SMARTY_DIR', './smarty-3.1/libs/');
+define('TRANSLATOR_DIR', './translation/');
 
-$smarty->display('index.tpl');
+require_once('site/Site.class.php');
+
+$site = new Site('pretty');
+
+$site->loadPage();
+$site->displayPage();
 
 ?>
