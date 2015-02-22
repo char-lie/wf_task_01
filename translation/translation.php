@@ -41,6 +41,6 @@ $Translation['ru']['Log in']                = 'Войти';
 $Translation['ru']['Account']               = 'Персональная страница';
 $Translation['ru']['Language']              = 'Язык';
 
-$Translation['en']['Toggle navigation']     = 'Выпадающая навигация';
+$Translation['ru']['Toggle navigation']     = 'Выпадающая навигация';
 
 ?>

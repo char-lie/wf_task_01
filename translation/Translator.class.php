@@ -46,7 +46,7 @@ class Translator {
         if (is_null($language)) {
             $language   = $this->defaultLanguage;
         }
-        $translate      =   function($languageName) use (&$language) {
+        $translate      =   function($languageName) use ($language) {
                               return $this->translate($languageName, $language);
                             };
         return array_combine($this->languageCodes,

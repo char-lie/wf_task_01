@@ -6,9 +6,8 @@ require_once(TRANSLATOR_DIR.'Translator.class.php');
 class Page extends Smarty {
 
     protected $template;
-    protected $pageName;
 
-    function __construct($template, $pageName, $templateName = 'main') {
+    function __construct($template, $templateName = 'main') {
         parent::__construct();
 
         $this->setTemplateDir('./templates/'.$templateName.'/');
@@ -17,9 +16,6 @@ class Page extends Smarty {
         $this->caching = Smarty::CACHING_LIFETIME_CURRENT;
 
         $this->template = $template;
-        $this->pageName = $pageName;
-
-        $this->initialAssignments();
     }
 
     function readLanguage() {
@@ -34,12 +30,6 @@ class Page extends Smarty {
         }
         $_SESSION['languageCode'] = $language;
         return $language;
-    }
-
-    function initialAssignments() {
-        $this->assign('app_name', 'Meetings site');
-        $this->assign('media', '/media');
-        $this->assign('currentPage', $this->pageName);
     }
 
     function display($template = NULL, $cache_id = NULL, $compile_id = NULL, $parent = NULL) {
