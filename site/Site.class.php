@@ -87,39 +87,26 @@ class Site {
     }
     // HIGH-LEVEL PAGES PROCESSING
 
-    // SITE URL
-    function getSiteURL() {
-        return (empty($_SERVER['HTTPS'])? "http://":"https://") .
-                $_SERVER['HTTP_HOST'];
-    }
-
-    function getCurrentPageURL() {
-        return $this->getSiteURL() . strtok($_SERVER["REQUEST_URI"],'?');
-    }
-
     function generateURL($parameters) {
+        $siteURL = sprintf("http%s://%s", empty($_SERVER['HTTPS'])? "":"s",
+                            $_SERVER['HTTP_HOST']);
+        $currentPageURL = $siteURL . strtok($_SERVER["REQUEST_URI"],'?');
         if (is_array($parameters)) {
-            return $this->getCurrentPageURL() . "?" .
-                http_build_query(array_merge($_GET, $parameters));
+            $queryString = http_build_query(array_merge($_GET, $parameters));
+            return sprintf("%s?%s", $currentPageURL, $queryString);
         }
         else {
-            return $this->getSiteURL() . "/" . $parameters;
+            return sprintf("%s/%s", $siteURL, $parameters);
         }
-    }
-    // SITE URL
-
-    // PAGES NAVIGATION
-    function getPagesURLs() {
-        $callback = function($page) {
-            return $this->generateURL(array('page' => $page));
-        };
-        return array_map($callback, $this->getPagesCodes());
     }
 
     function getNavigationElements() {
-        return array_combine($this->getPagesURLs(), $this->getPagesTitles());
+        $generatePageURL = function($pageCode) {
+            return $this->generateURL(array('page' => $pageCode));
+        };
+        $pagesURLs = array_map($generatePageURL, $this->getPagesCodes());
+        return array_combine($pagesURLs, $this->getPagesTitles());
     }
-    // PAGES NAVIGATION
 
 
     function getLanguagesNavigation() {
