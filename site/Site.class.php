@@ -11,8 +11,7 @@ class Site {
     protected $templateName;
     protected $translator;
     protected $page;
-    protected $language         = 'en';
-    protected $defaultPageCode  = 'home';
+    protected $language = 'en';
 
     function __construct($templateName = 'main') {
         $this->templateName = $templateName;
@@ -60,7 +59,7 @@ class Site {
 
     // PAGES INFO
     function getDefaultPageCode() {
-        return $this->defaultPageCode;
+        return 'home';
     }
 
     function getPagesCodes() {
@@ -124,62 +123,7 @@ class Site {
                              $this->translator->getLanguagesNames());
     }
 
-    function signIn($email, $password) {
-        $success    = false;
-        $user       = new User($email, $password);
-        if ($user->signIn()) {
-            $success = true;
-            header(sprintf("Location: %s",
-                            $this->generateURL(array('page' => 'account'))));
-        }
-        else {
-            $success = false;
-        }
-        return $success;
-    }
-    function signUp($email, $password) {
-        $success    = false;
-        $user       = new User($email, $password);
-        if ($user->signUp()) {
-            $success = $this->signIn($email, $password);
-        }
-        else {
-            $success = false;
-        }
-        return $success;
-    }
-
-    function loadLoginPage() {
-        $error      = NULL;
-        $email      = array_value('input-email', $_POST);
-        $password   = array_value('password-input', $_POST);
-        $user       = new User($email, $password);
-        if (is_null($email) or is_null($password)) {
-        }
-        else if (!$this->signIn($email, $password)) {
-            $error  = $this->translator->translate("Incorrect email or password");
-        }
-        return $error;
-    }
-
-    function loadRegistrationPage() {
-        $error      = NULL;
-        $email      = array_value('input-email', $_POST);
-        $password   = array_value('password-input', $_POST);
-        if (is_null($email) or is_null($password)) {
-        }
-        else if ($password != array_value('password-input', $_POST)) {
-            $error  = $this->translator->translate("Passwords don't match");
-        }
-        else if (!$this->signUp($email, $password)) {
-            $error  = $this->translator->translate("This email is already in use");
-        }
-        $this->page->assign('emailValue', $email);
-        return $error;
-    }
-
     function loadPage() {
-        $error = NULL;
         $this->page->assign(array(
             'app_name'              => 'Meetings site',
             'media'                 => $this->generateURL('media'),
@@ -189,13 +133,6 @@ class Site {
             'languages'             => $this->getLanguagesNavigation(),
             'navigationElements'    => $this->getNavigationElements()
         ));
-        if ($this->getCurrentPageCode()         === 'registration') {
-            $error = $this->loadRegistrationPage();
-        }
-        else if ($this->getCurrentPageCode()    === 'login') {
-            $error = $this->loadLoginPage();
-        }
-        $this->page->assign('error', $error);
     }
 
     function displayPage() {

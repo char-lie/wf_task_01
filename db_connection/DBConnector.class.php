@@ -14,7 +14,8 @@ class DBConnector {
     }
 
     function connect() {
-        return $this->mysqli->real_connect($this->host, $this->username, $this->password, $this->scheme);
+        return $this->mysqli->real_connect($this->host, $this->username,
+                                           $this->password, $this->scheme);
     }
 
     function close() {

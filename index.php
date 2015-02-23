@@ -11,9 +11,18 @@ define('TRANSLATOR_DIR', './translation/');
 define('SITE_CLASSES_DIR', './site/');
 define('USER_CLASS_DIR', './user/');
 
-require_once('site/Site.class.php');
+require_once(SITE_CLASSES_DIR.'Site.class.php');
+require_once(SITE_CLASSES_DIR.'SiteGuest.class.php');
+require_once(SITE_CLASSES_DIR.'SiteUser.class.php');
 
-$site = new Site('pretty');
+$site = NULL;
+
+if (isset($_SESSION['user_id'])) {
+    $site = new SiteUser('pretty');
+}
+else {
+    $site = new SiteGuest('pretty');
+}
 
 $site->loadPage();
 $site->displayPage();

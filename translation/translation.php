@@ -9,6 +9,7 @@ $Translation['en']['Registration']          = 'Registration';
 $Translation['en']['Registration continuation']
                                             = 'Registration continuation';
 $Translation['en']['Log in']                = 'Log in';
+$Translation['en']['Log out']               = 'Log out';
 $Translation['en']['Account']               = 'Account';
 
 $Translation['en']['Email']                 = 'Email address';
@@ -29,6 +30,11 @@ $Translation['en']['Incorrect email or password']
 $Translation['en']['This email is already in use']
                                             = 'This email is already in use';
 
+$Translation['en']['Personal information']  = 'Personal information';
+$Translation['en']['Appearance']            = 'Appearance';
+$Translation['en']['Photos']                = 'Photos';
+$Translation['en']['Interests']             = 'Interests';
+$Translation['en']['Places']                = 'Places';
 
 $Translation['ru']['English']               = 'Английский';
 $Translation['ru']['Russian']               = 'Русский';
@@ -44,6 +50,7 @@ $Translation['ru']['Continue registration'] = 'Продолжить регист
 $Translation['ru']['Home']                  = 'Главная';
 $Translation['ru']['Registration']          = 'Регистрация';
 $Translation['ru']['Log in']                = 'Войти';
+$Translation['ru']['Log out']               = 'Выйти';
 $Translation['ru']['Account']               = 'Персональная страница';
 $Translation['ru']['Language']              = 'Язык';
 
@@ -54,4 +61,11 @@ $Translation['ru']['Incorrect email or password']
                                             = 'Неверный email или пароль';
 $Translation['ru']['This email is already in use']
                                             = 'Данный email уже используется';
+
+$Translation['en']['Personal information']  = 'Личня информация';
+$Translation['en']['Appearance']            = 'Внешность';
+$Translation['en']['Photos']                = 'Фотографии';
+$Translation['en']['Interests']             = 'Интересы';
+$Translation['en']['Places']                = 'Места';
+
 ?>

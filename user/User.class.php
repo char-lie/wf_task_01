@@ -67,14 +67,14 @@ class User {
 
         if ($success) {
             $row        = $result->fetch_array();
-            $this->id   = $row['iduser_account'];
+            $this->id   = $row['id_user'];
             $success    = true;
         }
 
         $result->close();
         $dbConnector->close();
 
-        $_SESSION['account_id'] = $this->id;
+        $_SESSION['user_id'] = $this->id;
         return $success;
     }
 }
