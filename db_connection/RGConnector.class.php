@@ -5,32 +5,34 @@ require_once('db_connection/DBConnector.class.php');
 class RGConnector extends DBConnector {
     protected $password     = '12345';
     protected $username     = 'task_001_rg';
-    protected $signInQuery  = "
-        SELECT `user_account`.`iduser_account`
-          FROM `user_account`, `user_login`
-            WHERE email='%s'
-              AND password='%s'
-              AND user_account.iduser_login = user_login.iduser_login";
-    protected $signUpQuery  = array(
-        "INSERT INTO `user_login` (`email`, `password`) VALUES('%s', '%s');",
-        "INSERT INTO `user_account` (`iduser_login`) VALUES(LAST_INSERT_ID());");
+    protected $signInQuery  =
+        "SELECT `id_user` FROM `user` WHERE email='%s' AND password='%s'";
+    protected $signUpQuery  = 
+        "INSERT INTO `user` (`email`, `password`) VALUES('%s', '%s');";
 
     function __construct() {
         parent::__construct($this->username, $this->password);
     }
 
     function query($query) {
+        var_dump($query);
         return $this->mysqli->query($query);
     }
 
     function transaction($queries) {
-        $this->mysqli->autocommit(false);
-        foreach ($queries as $query) {
-            $this->mysqli->query($query);
+        $callback = function($carry, $query) {
+            return $carry & $this->mysqli->query($query);
+        };
+        $this->mysqli->begin_transaction();
+        $success  = array_reduce($queries, $callback, true);
+        if ($success) {
+            $success = $this->mysqli->commit();
         }
-        $result = $this->mysqli->commit();
-        $this->mysqli->autocommit(true);
-        return $result;
+        else {
+            $this->mysqli->rollback();
+            $success = false;
+        }
+        return $success;
     }
 
     function signIn($email, $password) {
@@ -39,8 +41,8 @@ class RGConnector extends DBConnector {
     }
 
     function signUp($email, $password) {
-        $query = sprintf($this->signUpQuery[0], $email, $password);
-        return $this->transaction(array($query, $this->signUpQuery[1]));
+        $query = sprintf($this->signUpQuery, $email, $password);
+        return $this->query($query);
     }
 
     function error() {

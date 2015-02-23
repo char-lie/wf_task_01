@@ -8,10 +8,15 @@ function getVar($varname) {
     return isset($_POST[$varname]) ? $_POST[$varname]:NULL;
 }
 
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+function test_input($data = NULL) {
+    if (is_null($data)) {
+        $data = '';
+    }
+    else {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+    }
     return $data;
 }
 

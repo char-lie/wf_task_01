@@ -23,6 +23,12 @@ $Translation['en']['Language']              = 'Language';
 
 $Translation['en']['Toggle navigation']     = 'Toggle navigation';
 
+$Translation['en']["Passwords don't match"] = "Passwords don't match";
+$Translation['en']['Incorrect email or password']
+                                            = 'Incorrect email or password';
+$Translation['en']['This email is already in use']
+                                            = 'This email is already in use';
+
 
 $Translation['ru']['English']               = 'Английский';
 $Translation['ru']['Russian']               = 'Русский';
@@ -43,4 +49,9 @@ $Translation['ru']['Language']              = 'Язык';
 
 $Translation['ru']['Toggle navigation']     = 'Выпадающая навигация';
 
+$Translation['ru']["Passwords don't match"] = "Пароли не совпадают";
+$Translation['ru']['Incorrect email or password']
+                                            = 'Неверный email или пароль';
+$Translation['ru']['This email is already in use']
+                                            = 'Данный email уже используется';
 ?>
