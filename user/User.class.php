@@ -61,7 +61,6 @@ class User {
 
         if ($success) {
             $result     = $dbConnector->signIn($this->email, $this->passHash);
-            var_dump($result);
             $success    = $result->num_rows == 1;
         }
 

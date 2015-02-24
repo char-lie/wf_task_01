@@ -10,6 +10,7 @@ define('SMARTY_DIR', './smarty-3.1/libs/');
 define('TRANSLATOR_DIR', './translation/');
 define('SITE_CLASSES_DIR', './site/');
 define('USER_CLASS_DIR', './user/');
+define('FORM_CLASS_DIR', './form/');
 
 require_once(SITE_CLASSES_DIR.'Site.class.php');
 require_once(SITE_CLASSES_DIR.'SiteGuest.class.php');

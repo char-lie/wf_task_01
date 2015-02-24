@@ -6,6 +6,7 @@
   <script src="{$media}/js/validation.js"></script>
 {/block}
 {block name=content}
+{$form}
 {if !is_null($error)}
   <div class="alert alert-danger" role="alert">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>

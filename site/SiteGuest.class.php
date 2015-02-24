@@ -1,6 +1,9 @@
 <?php
 
 require_once(SITE_CLASSES_DIR.'Site.class.php');
+require_once(FORM_CLASS_DIR.'Form.class.php');
+require_once(FORM_CLASS_DIR.'Fieldset.class.php');
+require_once(FORM_CLASS_DIR.'Input.class.php');
 
 class SiteGuest extends Site {
 
@@ -90,6 +93,11 @@ class SiteGuest extends Site {
             $error = $this->loadLoginPage();
         }
         $this->page->assign('error', $error);
+        $form = new Form(array('id'=>'o','method'=>'post','action'=>'index.php'));
+        $fieldset = new Fieldset(array('legend'=>'My form'));
+        $fieldset->addField(new Input(array('placeholder'=>'Plh','value'=>'vl')));
+        $form->addFieldset($fieldset);
+        $this->page->assign('form', $form->render());
     }
 }
 

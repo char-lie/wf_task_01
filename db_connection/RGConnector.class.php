@@ -15,7 +15,6 @@ class RGConnector extends DBConnector {
     }
 
     function query($query) {
-        var_dump($query);
         return $this->mysqli->query($query);
     }
 
