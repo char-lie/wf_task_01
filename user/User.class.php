@@ -76,6 +76,11 @@ class User {
         $_SESSION['user_id'] = $this->id;
         return $success;
     }
+
+    function signOut() {
+        $_SESSION['user_id'] = NULL;
+        return true;
+    }
 }
 
 ?>

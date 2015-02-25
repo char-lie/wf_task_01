@@ -2,14 +2,12 @@
 
 require_once(FORM_CLASS_DIR.'Element.class.php');
 
-class Fieldset extends Element {
+class ElementsContainer extends Element {
 
-    protected $parameters;
-    protected $fields = array();
+    protected $elements = array();
 
     function __construct($parameters) {
         parent::__construct($parameters);
-        $this->addParameters($parameters, array('legend'));
     }
 
     function addField($field) {
@@ -52,15 +50,13 @@ class Fieldset extends Element {
     }
 
     function render() {
-        $legend = isset($this->parameters['legend'])?
-                sprintf('<legend>%s</legend>', $this->parameters['legend']):'';
-        $fields = array_reduce($this->fields, $this->getFieldsRenderer(), '');
         return sprintf("
               <fieldset>
-                %s
+                <legend>%s</legend>
                 %s
               </fieldset>",
-              $legend, $fields);
+            $this->parameters['legend'],
+            array_reduce($this->fields, $this->getFieldsRenderer(), ''));
     }
 
     function validate() {

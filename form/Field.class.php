@@ -1,18 +1,22 @@
 <?php
 
-abstract class Field {
+require_once(FORM_CLASS_DIR.'Element.class.php');
+
+abstract class Field extends Element {
 
     protected $parameters;
 
     function __construct($parameters) {
-        $this->parameters = $parameters;
+        parent::__construct($parameters);
+        $this->addParameters($parameters, array('label'));
     }
 
-    abstract function render();
+    function getLabel() {
+        return $this->parameters['label'];
+    }
+
     abstract function validate();
     abstract function errors();
-    abstract function getID();
-    abstract function getLabel();
 
 }
 

@@ -1,12 +1,26 @@
 <?php
 
-class Form {
+require_once(FORM_CLASS_DIR.'Element.class.php');
+
+class Form extends Element {
 
     protected $parameters;
     protected $fieldsets = array();
 
     function __construct($parameters) {
-        $this->parameters = $parameters;
+        parent::__construct($parameters);
+        $this->addParameters($parameters, array('method', 'action'));
+    }
+
+    function getAttributesNames() {
+        return array_merge(parent::getAttributesNames(),
+                           array('method', 'action'));
+    }
+
+    function getFieldValue($fieldName) {
+        $source = strtolower($this->parameters['method']) === 'GET'?
+            $_GET:$_POST;
+        return array_value($fieldName, $source);
     }
 
     function addFieldset($fieldset) {
@@ -39,11 +53,10 @@ class Form {
 
     function render() {
         return sprintf("
-            <form id=\"%s\" name=\"%s\" method=\"%s\" action=\"%s\" novalidate>
+            <form %s novalidate>
                 %s
             </form>",
-            $this->parameters['id'], $this->parameters['id'],
-            $this->parameters['method'], $this->parameters['action'],
+            $this->getAttributesString(),
             array_reduce($this->fieldsets, $this->getFieldsetsRenderer(), ''));
     }
 

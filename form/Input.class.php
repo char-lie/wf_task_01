@@ -2,30 +2,33 @@
 
 require_once(FORM_CLASS_DIR.'Field.class.php');
 
-class Input extends Field {
+abstract class Input extends Field {
 
     function __construct($parameters) {
-        $this->parameters = $parameters;
+        parent::__construct($parameters);
+        $this->parameters =
+            array_merge($this->parameters,
+                        $this->parseParameters($parameters,
+                        array('placeholder', 'value')));
     }
 
     function render() {
-        return sprintf("
-            <input type=\"text\" placeholder=\"%s\" value=\"%s\"
-            class=\"form-control input-mini\">",
-            $this->parameters['placeholder'], $this->parameters['value']);
+        return sprintf('
+            <input class="%s" type="%s" %s>',
+            $this->getClasses(), $this->getType(),
+            $this->getAttributesString());
     }
-    function validate() {
-        return true;
+
+    function getAttributesNames() {
+        return array_merge(parent::getAttributesNames(),
+                           array('placeholder', 'value'));
     }
-    function errors() {
-        return array();
+
+    function getClasses() {
+        return 'form-control input-mini';
     }
-    function getLabel() {
-        return NULL;
-    }
-    function getID() {
-        return NULL;
-    }
+
+    abstract function getType();
 
 }
 

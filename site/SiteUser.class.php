@@ -33,8 +33,19 @@ class SiteUser extends Site {
         return $this->translator->translate($titles);
     }
 
+    function loadLogoutPage() {
+        $user = new User($_SESSION['user_id']);
+        $user->signOut();
+        header(sprintf("Location: %s",
+                        $this->generateURL(array('page' => 'home'))));
+        return NULL;
+    }
+
     function loadPage() {
         parent::loadPage();
+        if ($this->getCurrentPageCode()    === 'logout') {
+            $error = $this->loadLogoutPage();
+        }
     }
 }
 
