@@ -13,10 +13,11 @@ abstract class Input extends Field {
     }
 
     function render() {
-        return sprintf('
+        $field = sprintf('
             <input class="%s" type="%s" %s>',
             $this->getClasses(), $this->getType(),
             $this->getAttributesString());
+        return $this->decorate($field);
     }
 
     function getAttributesNames() {

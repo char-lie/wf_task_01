@@ -13,5 +13,5 @@ $(document).ready(function() {
             }
         }
     });
-    $('#form-registration').validate().form();
+    //$('#form-registration').validate().form();
 });

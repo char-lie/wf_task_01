@@ -24,7 +24,7 @@ class SiteGuest extends Site {
 
     function getPagesTitles() {
         $titles = array('Home', 'Registration', 'Log in');
-        return $this->translator->translate($titles);
+        return $this->translate($titles);
     }
     // PAGES INFO
 
@@ -61,18 +61,20 @@ class SiteGuest extends Site {
                 'id'            =>  'form-login',
                 'method'        =>  'post'));
         $fieldset = new Fieldset(array(
-                'legend'        =>  $this->translator->translate('Log in')));
+                'legend'        =>  $this->translate('Log in')));
         $fieldset->addField(new InputText(array(
                 'id'            => 'input-email',
-                'placeholder'   => $this->translator->translate('Email'),
-                'label'         => $this->translator->translate('Email'))));
+                'required'      => true,
+                'placeholder'   => $this->translate('Email'),
+                'label'         => $this->translate('Email'))));
         $fieldset->addField(new InputPassword(array(
                 'id'            => 'password-input',
-                'placeholder'   => $this->translator->translate('Password'),
-                'label'         => $this->translator->translate('Password'))));
+                'required'      => true,
+                'placeholder'   => $this->translate('Password'),
+                'label'         => $this->translate('Password'))));
         $fieldset->addField(new InputButton(array(
                 'id'            => 'login-button',
-                'value'         => $this->translator->translate('Log in'))));
+                'value'         => $this->translate('Log in'))));
         $form->addFieldset($fieldset);
 
         $email      = $form->getFieldValue('input-email');
@@ -82,7 +84,7 @@ class SiteGuest extends Site {
         if (is_null($email) or is_null($password)) {
         }
         else if (!$this->signIn($email, $password)) {
-            $error  = $this->translator->translate(
+            $error  = $this->translate(
                                          "Incorrect email or password");
         }
 
@@ -92,18 +94,47 @@ class SiteGuest extends Site {
 
     function loadRegistrationPage() {
         $error      = NULL;
-        $email      = array_value('input-email', $_POST);
-        $password   = array_value('password-input', $_POST);
+
+        $form = new Form(array(
+            'id'            =>  'form-registration',
+            'method'        =>  'post'));
+        $fieldset = new Fieldset(array(
+            'legend'        =>  $this->translate('Registration')));
+        $fieldset->addField(new InputText(array(
+            'id'            => 'input-email',
+            'required'      => true,
+            'placeholder'   => $this->translate('Email'),
+            'label'         => $this->translate('Email'))));
+        $fieldset->addField(new InputPassword(array(
+            'id'            => 'password-input',
+            'required'      => true,
+            'placeholder'   => $this->translate('Password'),
+            'label'         => $this->translate('Password'))));
+        $fieldset->addField(new InputPassword(array(
+            'id'            => 'password-confirm',
+            'required'      => true,
+            'placeholder'   => $this->translate('Confirm the password'),
+            'label'         => $this->translate('Confirm the password'))));
+        $fieldset->addField(new InputButton(array(
+            'id'            => 'registration-button',
+            'value'         => $this->translate('Register'))));
+        $form->addFieldset($fieldset);
+
+        $email              = $form->getFieldValue('input-email');
+        $password           = $form->getFieldValue('password-input');
+        $passwordConfirm    = $form->getFieldValue('password-confirm');
+
         if (is_null($email) or is_null($password)) {
         }
-        else if ($password != array_value('password-input', $_POST)) {
-            $error  = $this->translator->translate("Passwords don't match");
+        else if ($password !== $passwordConfirm) {
+            $error  = $this->translate("Passwords don't match");
         }
         else if (!$this->signUp($email, $password)) {
-            $error  = $this->translator->translate(
-                                         "This email is already in use");
+            $error  = $this->translate("This email is already in use");
         }
         $this->page->assign('emailValue', $email);
+
+        $this->page->assign('form', $form->render());
         return $error;
     }
 

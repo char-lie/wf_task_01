@@ -6,8 +6,7 @@ $Translation['en']['English']               = 'English';
 $Translation['en']['Russian']               = 'Russian';
 $Translation['en']['Site']                  = 'Site';
 $Translation['en']['Registration']          = 'Registration';
-$Translation['en']['Registration continuation']
-                                            = 'Registration continuation';
+$Translation['en']['Register']              = 'Register';
 $Translation['en']['Log in']                = 'Log in';
 $Translation['en']['Log out']               = 'Log out';
 $Translation['en']['Account']               = 'Account';
@@ -45,7 +44,7 @@ $Translation['ru']['Registration continuation']
 $Translation['ru']['Email']                 = 'Email адрес';
 $Translation['ru']['Password']              = 'Пароль';
 $Translation['ru']['Confirm the password']  = 'Повторите пароль';
-$Translation['ru']['Continue registration'] = 'Продолжить регистрацию';
+$Translation['ru']['Register']              = 'Зарегистрироваться';
 
 $Translation['ru']['Home']                  = 'Главная';
 $Translation['ru']['Registration']          = 'Регистрация';

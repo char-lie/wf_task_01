@@ -55,6 +55,10 @@ class Site {
             return '';
         }
     }
+
+    function translate($keyword) {
+        return $this->translator->translate($keyword);
+    }
     // TRANSLATION
 
     // PAGES INFO

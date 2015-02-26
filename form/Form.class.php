@@ -18,8 +18,8 @@ class Form extends Element {
     }
 
     function getFieldValue($fieldName) {
-        $source = strtolower($this->parameters['method']) === 'GET'?
-            $_GET:$_POST;
+        $source = strtoupper($this->parameters['method']) === 'GET'?
+                  $_GET : $_POST;
         return array_value($fieldName, $source);
     }
 
