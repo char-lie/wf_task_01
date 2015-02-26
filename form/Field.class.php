@@ -28,6 +28,11 @@ abstract class Field extends Element {
         return sprintf('<span class="input-group-addon">%s</span>', $icon);
     }
 
+    function getLabelCode() {
+        return sprintf('<label class="sr-only control-label" for="%s">
+                        %s</label>', $this->getID(), $this->getLabel());
+    }
+
     function decorate($renderedField) {
         if ($this->isRequired()) {
             $optionalIcon =  $this->renderOptionalIcon('*');

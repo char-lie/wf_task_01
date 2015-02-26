@@ -22,18 +22,12 @@ class Fieldset extends Element {
 
     function getFieldsRenderer() {
         return function($renderedFields, $field) {
-            $label = is_null($field->getID()) ? '' : sprintf('
-                  <label class="sr-only control-label" for="%s">
-                    %s
-                  </label>',
-                  $field->getID(), $field->getLabel());
             return sprintf('
                 %s
                 <div class="form-group">
                   %s
-                  %s
                 </div>',
-                $renderedFields, $label, $field->render());
+                $renderedFields, $field->render());
         };
     }
 

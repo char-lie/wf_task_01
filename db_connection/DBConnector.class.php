@@ -21,6 +21,31 @@ class DBConnector {
     function close() {
         return $this->mysqli->close();
     }
+
+    function query($query) {
+        return $this->mysqli->query($query);
+    }
+
+    function transaction($queries) {
+        $callback = function($carry, $query) {
+            return $carry & $this->mysqli->query($query);
+        };
+        $this->mysqli->begin_transaction();
+        $success  = array_reduce($queries, $callback, true);
+        if ($success) {
+            $success = $this->mysqli->commit();
+        }
+        else {
+            $this->mysqli->rollback();
+            $success = false;
+        }
+        return $success;
+    }
+
+    function error() {
+        return $this->mysqli->error;
+    }
+
 }
 
 ?>

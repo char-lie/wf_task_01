@@ -6,10 +6,7 @@ abstract class Input extends Field {
 
     function __construct($parameters) {
         parent::__construct($parameters);
-        $this->parameters =
-            array_merge($this->parameters,
-                        $this->parseParameters($parameters,
-                        array('placeholder', 'value')));
+        $this->addParameters($parameters, array('placeholder', 'value'));
     }
 
     function render() {
@@ -17,7 +14,8 @@ abstract class Input extends Field {
             <input class="%s" type="%s" %s>',
             $this->getClasses(), $this->getType(),
             $this->getAttributesString());
-        return $this->decorate($field);
+        $field = $this->decorate($field);
+        return sprintf('%s%s', $this->getLabelCode(), $field);
     }
 
     function getAttributesNames() {

@@ -61,13 +61,20 @@ create table place (
    constraint pk_place primary key (id_place),
    constraint `fk_city_place` foreign key (`id_city`) references `city` (`id_city`) on delete cascade on update cascade
 )   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table place_type (
+   id_place_type   int         not null auto_increment,
+   name_place_type varchar(50) not null,
+   constraint pk_place_type primary key (id_place_type)
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table lnk_user_place (
    id_lnk_user_place int not null auto_increment,
    id_user           int not null,
    id_place          int not null,
+   id_place_type     int not null,
    constraint pk_lnk_user_place primary key (id_lnk_user_place),
    constraint `fk_user_lnk_user_place` foreign key (`id_user`) references `user` (`id_user`) on delete cascade on update cascade,
-   constraint `fk_place_lnk_user_place` foreign key (`id_place`) references `place` (`id_place`) on delete cascade on update cascade
+   constraint `fk_place_lnk_user_place` foreign key (`id_place`) references `place` (`id_place`) on delete cascade on update cascade,
+   constraint `fk_place_type_lnk_user_place` foreign key (`id_place_type`) references `place_type` (`id_place_type`) on delete cascade on update cascade
 )   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table photo_album (
    id_photo_album   int          not null auto_increment,

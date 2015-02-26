@@ -85,8 +85,7 @@ class SiteGuest extends Site {
         if (is_null($email) or is_null($password)) {
         }
         else if (!$this->signIn($email, $password)) {
-            $error  = $this->translate(
-                                         "Incorrect email or password");
+            $error  = $this->translate("Incorrect email or password");
         }
 
         $this->page->assign('form', $form->render());
