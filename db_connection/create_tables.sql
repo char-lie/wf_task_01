@@ -36,62 +36,96 @@ drop table if exists interest;
 
 -- get_schema_create
 create table user (
-   id_user    int          not null,
+   id_user    int          not null auto_increment,
    email      varchar(256) not null,
    password   varchar(100) not null,
-   id_gender  int                  ,
-   birth_date date                 ,
    constraint pk_user primary key (id_user)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
-create table lnk_user_place (
-   id_lnk_user_place int not null,
-   id_user           int not null,
-   id_place          int not null,
-   constraint pk_lnk_user_place primary key (id_lnk_user_place)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table country (
+   id_country   int          not null auto_increment,
+   name_country varchar(200) not null,
+   constraint pk_country primary key (id_country)
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table city (
+   id_city    int          not null auto_increment,
+   id_country int          not null,
+   name_city  varchar(200) not null,
+   constraint pk_city primary key (id_city),
+   constraint `fk_country_city` foreign key (`id_country`) references `country` (`id_country`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table place (
-   id_place    int          not null,
+   id_place    int          not null auto_increment,
    id_city     int          not null,
    name_place  varchar(200) not null,
    description varchar(500)         ,
-   constraint pk_place primary key (id_place)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
-create table city (
-   id_city    int          not null,
-   id_country int          not null,
-   name_city  varchar(200) not null,
-   constraint pk_city primary key (id_city)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
-create table country (
-   id_country   int          not null,
-   name_country varchar(200) not null,
-   constraint pk_country primary key (id_country)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+   constraint pk_place primary key (id_place),
+   constraint `fk_city_place` foreign key (`id_city`) references `city` (`id_city`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table lnk_user_place (
+   id_lnk_user_place int not null auto_increment,
+   id_user           int not null,
+   id_place          int not null,
+   constraint pk_lnk_user_place primary key (id_lnk_user_place),
+   constraint `fk_user_lnk_user_place` foreign key (`id_user`) references `user` (`id_user`) on delete cascade on update cascade,
+   constraint `fk_place_lnk_user_place` foreign key (`id_place`) references `place` (`id_place`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table photo_album (
-   id_photo_album   int          not null,
+   id_photo_album   int          not null auto_increment,
    id_user          int                  ,
    name_photo_album varchar(200) not null,
    description      varchar(500)         ,
    id_main_photo    int                  ,
-   constraint pk_photo_album primary key (id_photo_album)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+   constraint pk_photo_album primary key (id_photo_album),
+   constraint `fk_user_photo_album` foreign key (`id_user`) references `user` (`id_user`) on delete cascade on update cascade
+--   constraint `fk_photo_photo_album` foreign key (`id_main_photo`) references `photo` (`id_photo`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table photo (
-   id_photo    int          not null,
-   id_album    int                  ,
-   name_photo  varchar(200)         ,
-   description varchar(500)         
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+   id_photo         int         not null auto_increment,
+   id_photo_album   int                  ,
+   name_photo  varchar(200)              ,
+   description varchar(500)              ,
+   constraint pk_photo primary key (id_photo),
+   constraint `fk_photo_album_photo` foreign key (`id_photo_album`) references `photo_album` (`id_photo_album`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+alter table `task_001`.`photo_album` 
+  add constraint `fk_photo_photo_album`
+  foreign key (`id_main_photo`)
+  references `task_001`.`photo` (`id_photo`)
+  on delete set null
+  on update cascade;
 create table gender (
-   id_gender   int         not null,
+   id_gender   int         not null auto_increment,
    name_gender varchar(50) not null,
    constraint pk_gender primary key (id_gender)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table preference (
-   id_preference int not null,
+   id_preference int not null auto_increment,
    id_user       int not null,
    id_gender     int         ,
-   constraint pk_preference primary key (id_preference)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+   constraint pk_preference primary key (id_preference),
+   constraint `fk_user_preference` foreign key (`id_user`) references `user` (`id_user`) on delete cascade on update cascade,
+   constraint `fk_gender_preference` foreign key (`id_gender`) references `gender` (`id_gender`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table physique (
+   id_physique   int         not null auto_increment,
+   name_physique varchar(50) not null,
+   constraint pk_physique primary key (id_physique)
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table eyes_color (
+   id_eyes_color   int         not null auto_increment,
+   name_eyes_color varchar(50) not null,
+   constraint pk_eyes_color primary key (id_eyes_color)
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table hair_color (
+   id_hair_color   int         not null auto_increment,
+   name_hair_color varchar(50) not null,
+   constraint pk_hair_color primary key (id_hair_color)
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table hair_length (
+   id_hair_length   int         not null auto_increment,
+   name_hair_length varchar(50) not null,
+   constraint pk_hair_length primary key (id_hair_length)
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table appearance (
    id_user        int not null,
    height         int         ,
@@ -99,45 +133,34 @@ create table appearance (
    id_eyes_color  int         ,
    id_hair_color  int         ,
    id_hair_length int         ,
-   constraint pk_appearance primary key (id_user)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
-create table physique (
-   id_physique   int         not null,
-   name_physique varchar(50) not null,
-   constraint pk_physique primary key (id_physique)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
-create table eyes_color (
-   id_eyes_color   int         not null,
-   name_eyes_color varchar(50) not null,
-   constraint pk_eyes_color primary key (id_eyes_color)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
-create table hair_color (
-   id_hair_color   int         not null,
-   name_hair_color varchar(50) not null,
-   constraint pk_hair_color primary key (id_hair_color)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
-create table hair_length (
-   id_hair_length   int         not null,
-   name_hair_length varchar(50) not null,
-   constraint pk_hair_length primary key (id_hair_length)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+   constraint pk_appearance primary key (id_user),
+   constraint `fk_user_appearance` foreign key (`id_user`) references `user` (`id_user`) on delete cascade on update cascade,
+   constraint `fk_physique_appearance` foreign key (`id_physique`) references `physique` (`id_physique`) on delete cascade on update cascade,
+   constraint `fk_eyes_color_appearance` foreign key (`id_eyes_color`) references `eyes_color` (`id_eyes_color`) on delete cascade on update cascade,
+   constraint `fk_hair_color_appearance` foreign key (`id_hair_color`) references `hair_color` (`id_hair_color`) on delete cascade on update cascade,
+   constraint `fk_hair_length_appearance` foreign key (`id_hair_length`) references `hair_length` (`id_hair_length`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table personal (
    id_user    int  not null,
    id_gender  int          ,
    birth_date date         ,
-   constraint pk_personal primary key (id_user)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
-create table lnk_user_interest (
-   id_lnk_user_interest int not null,
-   id_user              int not null,
-   id_interest          int not null,
-   constraint pk_lnk_user_interest primary key (id_lnk_user_interest)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+   constraint pk_personal primary key (id_user),
+   constraint `fk_user_personal` foreign key (`id_user`) references `user` (`id_user`) on delete cascade on update cascade,
+   constraint `fk_gender_personal` foreign key (`id_gender`) references `gender` (`id_gender`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table interest (
-   id_interest   int          not null,
+   id_interest   int          not null auto_increment,
    name_interest varchar(200)         ,
    constraint pk_interest primary key (id_interest)
-)   ENGINE=MyISAM DEFAULT CHARSET=latin1;
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table lnk_user_interest (
+   id_lnk_user_interest int not null auto_increment,
+   id_user              int not null,
+   id_interest          int not null,
+   constraint pk_lnk_user_interest primary key (id_lnk_user_interest),
+   constraint `fk_user_lnk_user_interest` foreign key (`id_user`) references `user` (`id_user`) on delete cascade on update cascade,
+   constraint `fk_interest_lnk_user_interest` foreign key (`id_interest`) references `interest` (`id_interest`) on delete cascade on update cascade
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- get_view_create
 
