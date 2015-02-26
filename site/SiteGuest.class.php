@@ -75,9 +75,10 @@ class SiteGuest extends Site {
                 'value'         => $this->translator->translate('Log in'))));
         $form->addFieldset($fieldset);
 
-        $email      = array_value('input-email', $_POST);
-        $password   = array_value('password-input', $_POST);
+        $email      = $form->getFieldValue('input-email');
+        $password   = $form->getFieldValue('password-input');
         $user       = new User($email, $password);
+
         if (is_null($email) or is_null($password)) {
         }
         else if (!$this->signIn($email, $password)) {

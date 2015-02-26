@@ -6,7 +6,7 @@ abstract class Element {
 
     function __construct($parameters) {
         $this->parameters           = $this->parseParameters($parameters,
-                                                   array('id'));
+                                                             array('id'));
         $this->parameters['name']   = array_value('name', $parameters,
                                                   $this->parameters['id']);
     }
@@ -21,7 +21,8 @@ abstract class Element {
 
     function addParameters($parameters, $keywords) {
         $this->parameters = array_merge($this->parameters,
-                            $this->parseParameters($parameters, $keywords));
+                                        $this->parseParameters($parameters,
+                                                               $keywords));
     }
 
     function getID() {
