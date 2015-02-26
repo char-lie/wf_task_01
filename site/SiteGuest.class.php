@@ -4,6 +4,7 @@ require_once(SITE_CLASSES_DIR.'Site.class.php');
 require_once(FORM_CLASS_DIR.'Form.class.php');
 require_once(FORM_CLASS_DIR.'Fieldset.class.php');
 require_once(FORM_CLASS_DIR.'InputText.class.php');
+require_once(FORM_CLASS_DIR.'InputEmail.class.php');
 require_once(FORM_CLASS_DIR.'InputPassword.class.php');
 require_once(FORM_CLASS_DIR.'InputButton.class.php');
 
@@ -62,7 +63,7 @@ class SiteGuest extends Site {
                 'method'        =>  'post'));
         $fieldset = new Fieldset(array(
                 'legend'        =>  $this->translate('Log in')));
-        $fieldset->addField(new InputText(array(
+        $fieldset->addField(new InputEmail(array(
                 'id'            => 'input-email',
                 'required'      => true,
                 'placeholder'   => $this->translate('Email'),
@@ -100,7 +101,7 @@ class SiteGuest extends Site {
             'method'        =>  'post'));
         $fieldset = new Fieldset(array(
             'legend'        =>  $this->translate('Registration')));
-        $fieldset->addField(new InputText(array(
+        $fieldset->addField(new InputEmail(array(
             'id'            => 'input-email',
             'required'      => true,
             'placeholder'   => $this->translate('Email'),
