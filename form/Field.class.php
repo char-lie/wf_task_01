@@ -29,7 +29,7 @@ abstract class Field extends Element {
     }
 
     function getLabelCode() {
-        return sprintf('<label class="sr-only control-label" for="%s">
+        return sprintf('<label class="col-sm-4 control-label" for="%s">
                         %s</label>', $this->getID(), $this->getLabel());
     }
 

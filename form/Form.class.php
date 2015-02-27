@@ -52,10 +52,10 @@ class Form extends Element {
     }
 
     function render() {
-        return sprintf("
-            <form %s novalidate>
+        return sprintf('
+            <form %s class="form-horizontal" novalidate>
                 %s
-            </form>",
+            </form>',
             $this->getAttributesString(),
             array_reduce($this->fieldsets, $this->getFieldsetsRenderer(), ''));
     }

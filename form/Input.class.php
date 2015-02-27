@@ -15,7 +15,8 @@ abstract class Input extends Field {
             $this->getClasses(), $this->getType(),
             $this->getAttributesString());
         $field = $this->decorate($field);
-        return sprintf('%s%s', $this->getLabelCode(), $field);
+        return sprintf('%s<div class="col-sm-8">%s</div>',
+                        $this->getLabelCode(), $field);
     }
 
     function getAttributesNames() {

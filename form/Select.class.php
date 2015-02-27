@@ -16,9 +16,13 @@ class Select extends Field {
                                 $key, $value);
         }
         return sprintf('
-            <select class="form-control" %s>
-              %s
-            </select>',
+            %s
+            <div class="col-sm-8">
+              <select class="form-control" %s>
+                %s
+              </select>
+            </div>',
+            $this->getLabelCode(),
             $this->getAttributesString(),
             $options);
     }
