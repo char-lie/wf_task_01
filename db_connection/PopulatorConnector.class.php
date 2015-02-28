@@ -28,4 +28,3 @@ class PopulatorConnector extends DBConnector {
 }
 
 ?>
-
