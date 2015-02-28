@@ -17,7 +17,7 @@ class SiteUser extends Site {
     function __construct($templateName = 'main') {
         parent::__construct($templateName);
     }
-    //
+
     // PAGES INFO
     function getDefaultPageCode() {
         return 'account';
@@ -65,7 +65,25 @@ class SiteUser extends Site {
         $fieldset->addField(new Select(array(
                 'id'            => 'select-gender',
                 'label'         => $this->translate('Gender'),
-                'options'       => $pc->getOptions('gender', $this->translator->getTranslationClosure()))));
+                'addBlank'      => true,
+                'options'       => $pc->getOptions('gender',
+                                   $this->translator->getTranslationClosure())
+            )));
+        $iPrefer = function ($gender) {
+            return $this->translate(
+                            sprintf("I prefer %s", strtolower($gender)));
+        };
+        $fieldset->addField(new Select(array(
+                'id'            => 'select-preferences',
+                'label'         => $this->translate('Preferences'),
+                'multiple'      => true,
+                'options'       => $pc->getOptions('gender', $iPrefer)
+            )));
+        $fieldset->addField(new InputDate(array(
+                'id'            => 'input-birth-date',
+                'label'         => $this->translate('Birth date'),
+                'max'           => date('Y-m-d', strtotime('-14 years', time()))
+        )));
         $fieldset->addField(new InputButton(array(
                 'id'            => 'submit-personal',
                 'value'         => $this->translate('Submit'))));

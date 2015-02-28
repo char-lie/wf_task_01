@@ -40,6 +40,14 @@ $Translation['en']['Male']                  = 'Male';
 $Translation['en']['Female']                = 'Female';
 $Translation['en']['Not identified']        = 'Not identified';
 
+$Translation['en']['Preferences']           = 'Preferences';
+$Translation['en']['I prefer male']         = 'I prefer males';
+$Translation['en']['I prefer female']       = 'I prefer females';
+$Translation['en']['I prefer not identified']
+                                            = 'I prefer not identified';
+
+$Translation['en']['Birth date']            = 'Birth date';
+
 $Translation['ru']['English']               = 'Английский';
 $Translation['ru']['Russian']               = 'Русский';
 $Translation['ru']['Site']                  = 'Сайт';
@@ -75,5 +83,14 @@ $Translation['ru']['Gender']                = 'Пол';
 $Translation['ru']['Male']                  = 'Мужской';
 $Translation['ru']['Female']                = 'Женский';
 $Translation['ru']['Not identified']        = 'Неопределённый';
+
+$Translation['ru']['Preferences']           = 'Предпочтения';
+$Translation['ru']['I prefer male']         = 'Я предпочитаю мужчин';
+$Translation['ru']['I prefer female']       = 'Я предпочитаю женщин';
+$Translation['ru']['I prefer not identified']
+                                            = 'Я предпочитаю неопределившихся';
+
+
+$Translation['ru']['Birth date']            = 'Дата рождения';
 
 ?>
