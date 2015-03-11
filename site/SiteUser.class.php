@@ -62,6 +62,16 @@ class SiteUser extends Site {
                 'method'        =>  'post'));
         $fieldset = new Fieldset(array(
                 'legend'        =>  $this->translate('Personal information')));
+        $fieldset->addField(new InputText(array(
+                'id'            => 'input-first-name',
+                'required'      => true,
+                'placeholder'   => $this->translate('First name'),
+                'label'         => $this->translate('First name'))));
+        $fieldset->addField(new InputText(array(
+                'id'            => 'input-last-name',
+                'required'      => true,
+                'placeholder'   => $this->translate('Last name'),
+                'label'         => $this->translate('Last name'))));
         $fieldset->addField(new Select(array(
                 'id'            => 'select-gender',
                 'label'         => $this->translate('Gender'),

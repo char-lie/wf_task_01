@@ -149,6 +149,8 @@ create table appearance (
 )   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table personal (
    id_user    int  not null,
+   first_name varchar(200) not null,
+   last_name varchar(200)  not null,
    id_gender  int          ,
    birth_date date         ,
    constraint pk_personal primary key (id_user),

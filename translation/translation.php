@@ -46,6 +46,8 @@ $Translation['en']['I prefer female']       = 'I prefer females';
 $Translation['en']['I prefer not identified']
                                             = 'I prefer not identified';
 
+$Translation['en']['First name']            = 'First name';
+$Translation['en']['Last name']             = 'Last name';
 $Translation['en']['Birth date']            = 'Birth date';
 
 $Translation['ru']['English']               = 'Английский';
@@ -91,6 +93,8 @@ $Translation['ru']['I prefer not identified']
                                             = 'Я предпочитаю неопределившихся';
 
 
+$Translation['ru']['First name']            = 'Имя';
+$Translation['ru']['Last name']             = 'Фамилия';
 $Translation['ru']['Birth date']            = 'Дата рождения';
 
 ?>
